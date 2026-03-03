@@ -40,7 +40,7 @@ export default function AccountScreen() {
       scrollable={false}>
       <SectionCard title="Session">
         <Text style={styles.line}>Subject: {subject}</Text>
-        <Text style={styles.line}>Scope: {session?.scope || config.requiredScope}</Text>
+        <Text style={styles.line}>Scope: {session?.scope || `${config.requiredScope} ${config.writeScope}`}</Text>
         <Text style={styles.line}>Issuer: {config.oidcIssuer || '-'}</Text>
         <Text style={styles.line}>Audience: {config.oidcAudience || '-'}</Text>
       </SectionCard>

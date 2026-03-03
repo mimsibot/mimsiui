@@ -38,6 +38,15 @@ Regla operativa:
 - cambios JS / assets: `eas update`
 - cambios nativos o nuevas dependencias nativas: nueva build Android
 
+Primera build Android interna:
+
+```bash
+cd mobile
+npm run android:preview
+```
+
+Esa build es la correcta para probar login OIDC real, deep links y secure storage fuera de Expo Go.
+
 Esto encaja bien con un bot que hace cambios frecuentes en UI sin obligar a reinstalar APK cada vez.
 
 ## Topología recomendada

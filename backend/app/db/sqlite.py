@@ -13,3 +13,13 @@ def get_conn():
     finally:
         conn.close()
 
+
+@contextmanager
+def get_rw_conn():
+    conn = sqlite3.connect(settings.mimsibot_db_path)
+    conn.row_factory = sqlite3.Row
+    try:
+        yield conn
+        conn.commit()
+    finally:
+        conn.close()

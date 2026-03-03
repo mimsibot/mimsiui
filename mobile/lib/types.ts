@@ -34,3 +34,14 @@ export type AuthMeResponse = {
   subject: string;
   claims: Record<string, unknown>;
 };
+
+export type BridgeRequest = {
+  id: number;
+  title: string;
+  goal: string;
+  status: string;
+  task_id: number | null;
+  error: string;
+  created_at: string;
+  processed_at: string | null;
+};

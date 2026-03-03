@@ -9,7 +9,9 @@
     "web": "expo start --web",
     "test": "jest --runInBand",
     "test:watch": "jest --watch",
-    "export:web": "expo export --platform web"
+    "export:web": "expo export --platform web",
+    "android:preview": "npx eas-cli build --platform android --profile preview",
+    "android:production": "npx eas-cli build --platform android --profile production"
   },
   "dependencies": {
     "@react-navigation/native": "^7.1.28",

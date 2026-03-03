@@ -50,14 +50,40 @@ En esta fase, todas las rutas protegidas usan `mimsiui.read`.
 - `EXPO_PUBLIC_OIDC_AUDIENCE=mimsiui-api`
 - `EXPO_PUBLIC_OIDC_SCOPE=mimsiui.read`
 
-## Recomendación operativa
+## Proveedor inicial recomendado
 
-Para producción, usa un proveedor OIDC maduro con MFA y gestión de sesiones:
+Para este proyecto, la opción inicial más pragmática es **Auth0**:
 
-- Keycloak
-- Auth0
-- Okta
-- Microsoft Entra ID
+- típico y ampliamente soportado
+- plan gratuito vigente
+- OIDC estándar
+- encaja bien con app móvil + API propia
+- muy rápido de configurar para un primer despliegue fuera de SSH/Slack
+
+## Setup recomendado con Auth0
+
+1. crea una **Native Application** llamada `mimsiui-mobile`
+2. crea una **API** llamada `mimsiui-api`
+3. usa como `Identifier` de la API algo como `https://mimsiui-api`
+4. define scopes:
+   - `mimsiui.read`
+   - `mimsiui.write`
+5. en la app nativa, permite callbacks tipo:
+   - `mimsiui://auth/callback`
+6. activa MFA en el tenant
+
+Valores a poner luego en producción:
+
+- `AUTH_ISSUER=https://YOUR_TENANT_REGION.auth0.com/`
+- `AUTH_AUDIENCE=https://mimsiui-api`
+- `AUTH_CLIENT_ID=<client-id-native-app>`
+- `AUTH_REQUIRED_SCOPE=mimsiui.read`
+- `AUTH_ADMIN_SCOPE=mimsiui.write`
+- `EXPO_PUBLIC_OIDC_ISSUER=https://YOUR_TENANT_REGION.auth0.com/`
+- `EXPO_PUBLIC_OIDC_AUDIENCE=https://mimsiui-api`
+- `EXPO_PUBLIC_OIDC_CLIENT_ID=<client-id-native-app>`
+- `EXPO_PUBLIC_OIDC_SCOPE=mimsiui.read`
+- `EXPO_PUBLIC_OIDC_WRITE_SCOPE=mimsiui.write`
 
 ## Seguridad mínima esperada
 

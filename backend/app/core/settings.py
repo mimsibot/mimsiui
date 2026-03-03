@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     auth_required_scope: str = "mimsiui.read"
     auth_admin_scope: str = "mimsiui.write"
     auth_metadata_ttl_seconds: int = 300
+    bridge_source: str = "mimsiui"
 
     @property
     def cors_origins(self) -> list[str]:

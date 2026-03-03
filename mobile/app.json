@@ -16,6 +16,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.mimsibot.mimsiui",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -38,7 +39,8 @@
       "oidcIssuer": "",
       "oidcClientId": "",
       "oidcAudience": "",
-      "oidcScope": "mimsiui.read"
+      "oidcScope": "mimsiui.read",
+      "oidcWriteScope": "mimsiui.write"
     },
     "experiments": {
       "typedRoutes": true

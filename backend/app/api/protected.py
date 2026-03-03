@@ -1,12 +1,16 @@
 from fastapi import APIRouter, HTTPException, Query, Security
 
 from app.core.settings import settings
+from app.schemas.bridge import BridgeRequestResponse, CreateTaskRequest
 from app.security.oidc import get_current_claims
+from app.services.bridge import BridgeService
 from app.services.dashboard import DashboardService
 
 svc = DashboardService()
+bridge = BridgeService()
 router = APIRouter()
 read_access = Security(get_current_claims, scopes=[settings.auth_required_scope])
+write_access = Security(get_current_claims, scopes=[settings.auth_admin_scope])
 
 
 @router.get("/auth/me")
@@ -95,3 +99,21 @@ def services(claims: dict = read_access):
 @router.get("/config")
 def config(prefix: str = "", claims: dict = read_access):
     return {"items": svc.config(prefix=prefix or None)}
+
+
+@router.get("/bridge/requests")
+def bridge_requests(limit: int = Query(default=20, ge=1, le=100), claims: dict = read_access):
+    return {"items": bridge.list_requests(requester_sub=claims.get("sub", ""), limit=limit)}
+
+
+@router.get("/bridge/requests/{request_id}")
+def bridge_request_detail(request_id: int, claims: dict = read_access):
+    item = bridge.get_request(request_id)
+    if not item or item.get("requester_sub") != claims.get("sub"):
+        raise HTTPException(status_code=404, detail="bridge request not found")
+    return item
+
+
+@router.post("/bridge/tasks", response_model=BridgeRequestResponse, status_code=202)
+def bridge_create_task(payload: CreateTaskRequest, claims: dict = write_access):
+    return bridge.create_task_request(claims, title=payload.title, goal=payload.goal)

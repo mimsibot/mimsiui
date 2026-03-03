@@ -1,5 +1,5 @@
 import { appConfig } from '@/lib/config';
-import { AuthMeResponse, OverviewResponse, ServiceState, TaskSummary } from '@/lib/types';
+import { AuthMeResponse, BridgeRequest, OverviewResponse, ServiceState, TaskSummary } from '@/lib/types';
 
 class ApiError extends Error {
   status: number;
@@ -37,5 +37,24 @@ export const api = {
   },
   fetchMe(accessToken: string) {
     return request<AuthMeResponse>('/auth/me', accessToken);
+  },
+  async createTask(accessToken: string, title: string, goal: string) {
+    const response = await fetch(`${appConfig.apiBaseUrl}/api/v1/bridge/tasks`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ title, goal }),
+    });
+    if (!response.ok) {
+      throw new ApiError(response.status, `API ${response.status}: ${await response.text()}`);
+    }
+    return (await response.json()) as { request_id: number; status: string; task_id: number | null };
+  },
+  async fetchBridgeRequests(accessToken: string) {
+    const payload = await request<{ items: BridgeRequest[] }>('/bridge/requests', accessToken);
+    return payload.items;
   },
 };
