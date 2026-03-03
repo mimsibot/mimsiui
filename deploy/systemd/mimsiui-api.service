@@ -1,0 +1,16 @@
+[Unit]
+Description=mimsiui FastAPI service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=mimsi
+WorkingDirectory=/opt/mimsiui/backend
+EnvironmentFile=/opt/mimsiui/.env
+ExecStart=/opt/mimsiui/backend/.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
