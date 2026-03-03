@@ -27,7 +27,7 @@ def test_protected_route_accepts_verified_claims(monkeypatch):
         def verify_access_token(self, token: str, required_scopes: list[str]) -> dict:
             assert token == "good-token"
             assert "mimsiui.read" in required_scopes
-            return {"sub": "tester", "scope": "openid profile mimsiui.read"}
+            return {"sub": "tester", "scope": "openid profile mimsiui.read", "email_verified": True}
 
     monkeypatch.setattr(oidc, "get_verifier", lambda: FakeVerifier())
     response = client.get("/api/v1/auth/me", headers={"Authorization": "Bearer good-token"})

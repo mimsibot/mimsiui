@@ -27,6 +27,8 @@ export default function AppLayout() {
         },
       }}>
       <Tabs.Screen name="overview" options={{ title: 'Overview' }} />
+      <Tabs.Screen name="chat" options={{ title: 'Chat' }} />
+      <Tabs.Screen name="context" options={{ title: 'Context' }} />
       <Tabs.Screen name="tasks" options={{ title: 'Tasks' }} />
       <Tabs.Screen name="send" options={{ title: 'Send' }} />
       <Tabs.Screen name="services" options={{ title: 'Services' }} />

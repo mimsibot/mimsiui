@@ -44,7 +44,12 @@ def test_create_bridge_task_request(tmp_path, monkeypatch):
         def verify_access_token(self, token: str, required_scopes: list[str]) -> dict:
             assert token == "good-token"
             assert settings.auth_admin_scope in required_scopes
-            return {"sub": "user-1", "email": "user@example.com", "scope": f"{settings.auth_required_scope} {settings.auth_admin_scope}"}
+            return {
+                "sub": "user-1",
+                "email": "user@example.com",
+                "email_verified": True,
+                "scope": f"{settings.auth_required_scope} {settings.auth_admin_scope}",
+            }
 
     monkeypatch.setattr(oidc, "get_verifier", lambda: FakeVerifier())
     response = client.post(
@@ -73,7 +78,7 @@ def test_list_bridge_requests_is_scoped_to_subject(tmp_path, monkeypatch):
 
     class FakeVerifier:
         def verify_access_token(self, token: str, required_scopes: list[str]) -> dict:
-            return {"sub": "user-1", "scope": settings.auth_required_scope}
+            return {"sub": "user-1", "scope": settings.auth_required_scope, "email_verified": True}
 
     monkeypatch.setattr(oidc, "get_verifier", lambda: FakeVerifier())
     response = client.get("/api/v1/bridge/requests", headers={"Authorization": "Bearer read-token"})

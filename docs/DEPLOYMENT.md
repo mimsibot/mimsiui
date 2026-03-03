@@ -61,3 +61,10 @@ Esto encaja bien con un bot que hace cambios frecuentes en UI sin obligar a rein
 `React Native -> FastAPI -> mimsibot`
 
 Slack queda como canal secundario. SSH queda para mantenimiento profundo, no para operación diaria.
+
+## Superficie segura
+
+- FastAPI expone solo API autenticada
+- `mimsibot` no se expone directamente
+- tareas y chat cruzan por tablas bridge persistentes
+- el bot consume esas colas desde su propio proceso

@@ -17,6 +17,8 @@ El flujo que se está consolidando en este repo es:
 - backend `FastAPI` read-only conectado al `tasks.db` real de `mimsibot`
 - OAuth 2.0 / OIDC preparado en backend con JWT validation por JWKS
 - frontend Expo Router con pantallas base: `overview`, `tasks`, `services`, `account`
+- chat persistente con sesiones e histórico
+- pantalla de contexto con memoria, agentes y tareas recientes
 - tests de frontend y export web ejecutables localmente
 - scripts de despliegue incremental y OTA móvil preparados
 
@@ -58,6 +60,9 @@ npm run android
 - `AUTH_CLIENT_ID`
 - `AUTH_REQUIRED_SCOPE`
 - `AUTH_ADMIN_SCOPE`
+- `AUTH_REQUIRE_EMAIL_VERIFIED`
+- `TRUSTED_HOSTS_RAW`
+- `FORCE_HTTPS`
 - `CORS_ORIGINS_RAW`
 
 ## Variables mobile

@@ -15,4 +15,5 @@ def auth_config():
         "required_scope": settings.auth_required_scope,
         "admin_scope": settings.auth_admin_scope,
         "bridge_source": settings.bridge_source,
+        "require_email_verified": settings.auth_require_email_verified,
     }

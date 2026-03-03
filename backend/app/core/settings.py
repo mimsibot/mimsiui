@@ -17,10 +17,17 @@ class Settings(BaseSettings):
     auth_admin_scope: str = "mimsiui.write"
     auth_metadata_ttl_seconds: int = 300
     bridge_source: str = "mimsiui"
+    auth_require_email_verified: bool = True
+    trusted_hosts_raw: str = ""
+    force_https: bool = False
 
     @property
     def cors_origins(self) -> list[str]:
         return [item.strip() for item in self.cors_origins_raw.split(",") if item.strip()]
+
+    @property
+    def trusted_hosts(self) -> list[str]:
+        return [item.strip() for item in self.trusted_hosts_raw.split(",") if item.strip()]
 
 
 settings = Settings()

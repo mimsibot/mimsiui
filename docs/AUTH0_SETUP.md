@@ -56,6 +56,14 @@ EXPO_PUBLIC_OIDC_WRITE_SCOPE=mimsiui.write
 
 Activa MFA en Auth0 antes de abrir la app fuera de la red privada.
 
-## 7. Observación para Expo
+## 7. GitHub social login
+
+Si quieres entrar con GitHub:
+
+1. en Auth0 activa la social connection `GitHub`
+2. asóciala a la aplicación `mimsiui-mobile`
+3. mantén MFA habilitado también para ese flujo si el tenant lo soporta
+
+## 8. Observación para Expo
 
 Este repo usa `expo-auth-session`. Para distribución Android real, el camino operativo correcto es un Dev Client / EAS build, no depender de Expo Go.

@@ -2,15 +2,20 @@ from fastapi import APIRouter, HTTPException, Query, Security
 
 from app.core.settings import settings
 from app.schemas.bridge import BridgeRequestResponse, CreateTaskRequest
-from app.security.oidc import get_current_claims
+from app.schemas.chat import ChatSessionResponse, CreateChatMessageRequest, CreateChatSessionRequest
+from app.security.oidc import get_current_claims, get_write_claims
 from app.services.bridge import BridgeService
+from app.services.chat import ChatService
+from app.services.context import ContextService
 from app.services.dashboard import DashboardService
 
 svc = DashboardService()
 bridge = BridgeService()
+chat = ChatService()
+context_service = ContextService()
 router = APIRouter()
 read_access = Security(get_current_claims, scopes=[settings.auth_required_scope])
-write_access = Security(get_current_claims, scopes=[settings.auth_admin_scope])
+write_access = Security(get_write_claims, scopes=[settings.auth_admin_scope])
 
 
 @router.get("/auth/me")
@@ -117,3 +122,47 @@ def bridge_request_detail(request_id: int, claims: dict = read_access):
 @router.post("/bridge/tasks", response_model=BridgeRequestResponse, status_code=202)
 def bridge_create_task(payload: CreateTaskRequest, claims: dict = write_access):
     return bridge.create_task_request(claims, title=payload.title, goal=payload.goal)
+
+
+@router.get("/chat/sessions")
+def chat_sessions(limit: int = Query(default=20, ge=1, le=100), claims: dict = read_access):
+    return {"items": chat.list_sessions(requester_sub=claims.get("sub", ""), limit=limit)}
+
+
+@router.post("/chat/sessions", response_model=ChatSessionResponse, status_code=201)
+def create_chat_session(payload: CreateChatSessionRequest, claims: dict = write_access):
+    return chat.create_session(claims, title=payload.title)
+
+
+@router.get("/chat/sessions/{session_id}")
+def chat_session_detail(session_id: int, claims: dict = read_access):
+    item = chat.get_session(session_id, requester_sub=claims.get("sub", ""))
+    if not item:
+        raise HTTPException(status_code=404, detail="chat session not found")
+    return item
+
+
+@router.get("/chat/sessions/{session_id}/messages")
+def chat_messages(session_id: int, limit: int = Query(default=100, ge=1, le=300), claims: dict = read_access):
+    session = chat.get_session(session_id, requester_sub=claims.get("sub", ""))
+    if not session:
+        raise HTTPException(status_code=404, detail="chat session not found")
+    return {"items": chat.list_messages(session_id, requester_sub=claims.get("sub", ""), limit=limit)}
+
+
+@router.post("/chat/sessions/{session_id}/messages", status_code=202)
+def create_chat_message(session_id: int, payload: CreateChatMessageRequest, claims: dict = write_access):
+    item = chat.post_message(session_id, requester_sub=claims.get("sub", ""), content=payload.content)
+    if not item:
+        raise HTTPException(status_code=404, detail="chat session not found")
+    return item
+
+
+@router.get("/context/overview")
+def context_overview(claims: dict = read_access):
+    return context_service.overview()
+
+
+@router.get("/context/search")
+def context_search(query: str = Query(min_length=2), limit: int = Query(default=20, ge=1, le=50), claims: dict = read_access):
+    return {"items": context_service.search_memories(query=query, limit=limit)}

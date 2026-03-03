@@ -121,3 +121,16 @@ def get_current_claims(
             headers={"WWW-Authenticate": 'Bearer scope="mimsiui.read"'},
         )
     return get_verifier().verify_access_token(credentials.credentials, list(security_scopes.scopes))
+
+
+def get_write_claims(
+    security_scopes: SecurityScopes,
+    credentials: HTTPAuthorizationCredentials | None = Security(bearer_scheme),
+) -> dict:
+    claims = get_current_claims(security_scopes, credentials)
+    if settings.auth_require_email_verified and claims.get("email_verified") is not True:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Verified email required for write operations.",
+        )
+    return claims

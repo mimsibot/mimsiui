@@ -45,3 +45,53 @@ export type BridgeRequest = {
   created_at: string;
   processed_at: string | null;
 };
+
+export type ChatSession = {
+  id: number;
+  title: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
+  last_message_at: string | null;
+};
+
+export type ChatMessage = {
+  id: number;
+  session_id: number;
+  sender: 'user' | 'assistant';
+  content: string;
+  status: string;
+  route_used: string;
+  error: string;
+  created_at: string;
+  processed_at: string | null;
+};
+
+export type ContextOverview = {
+  memories: Array<{
+    id: number;
+    scope_type: string;
+    scope_key: string;
+    title: string;
+    content: string;
+    importance: number;
+    created_at: string;
+  }>;
+  agents: Array<{
+    id: number;
+    name: string;
+    role: string;
+    active: number;
+    version_count: number;
+    updated_at: string | null;
+    last_used_at: string | null;
+  }>;
+  recent_tasks: Array<{
+    id: number;
+    title: string;
+    status: string;
+    trigger: string;
+    triggered_by: string;
+    created_at: string;
+  }>;
+};

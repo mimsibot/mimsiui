@@ -90,6 +90,8 @@ Valores a poner luego en producción:
 - HTTPS obligatorio en el gateway
 - tokens cortos
 - MFA en el IdP
+- `email_verified=true` obligatorio para operaciones write
 - scopes separados para lectura y escritura
+- `TrustedHostMiddleware` y cabeceras de endurecimiento en FastAPI
 - `mimsibot` sin exposición directa a internet
 - logs de acceso y auditoría en FastAPI / reverse proxy
