@@ -220,18 +220,7 @@ tailscale ip -4
 
 ### 8.3 Modo inmediato: acceso tailnet-only
 
-Si el móvil tendrá Tailscale instalado y conectado a la misma tailnet, no hace falta esperar a Funnel. Basta con exponer el backend en el nodo y usar el hostname `*.ts.net` con puerto `8000`.
-
-URL esperada para la app:
-
-```env
-EXPO_PUBLIC_API_BASE_URL=http://mimsibot.tail8ded01.ts.net:8000
-```
-
-Requisito:
-
-- Android preview con `usesCleartextTraffic=true`
-- Tailscale conectado en el móvil
+Con Funnel ya habilitado en la tailnet, este modo deja de ser el preferente para móvil. La app debe usar HTTPS público del hostname `*.ts.net`.
 
 ### 8.4 Publicar el backend con Funnel
 
@@ -278,7 +267,7 @@ CORS_ORIGINS_RAW=
 `mobile/.env`
 
 ```env
-EXPO_PUBLIC_API_BASE_URL=http://mimsibot.tail8ded01.ts.net:8000
+EXPO_PUBLIC_API_BASE_URL=https://mimsibot.tail8ded01.ts.net
 EXPO_PUBLIC_OIDC_ISSUER=https://TU_TENANT.auth0.com/
 EXPO_PUBLIC_OIDC_CLIENT_ID=TU_CLIENT_ID_NATIVE
 EXPO_PUBLIC_OIDC_AUDIENCE=https://mimsiui-api
@@ -347,9 +336,9 @@ Para login OIDC real no dependas de Expo Go. Usa una build interna:
 
 ```bash
 cd /home/eager-eagle/code/mimsiui/mobile
-npm install
-npm test
-npm run android:preview
+corepack pnpm install
+corepack pnpm test
+corepack pnpm run android:preview
 ```
 
 El script `android:preview` ya existe y usa EAS build interna.
@@ -358,7 +347,7 @@ Para la primera prueba en móvil:
 
 1. instala Tailscale en el teléfono
 2. inicia sesión en la misma tailnet del MSI
-3. genera la build preview con `EXPO_PUBLIC_API_BASE_URL=http://mimsibot.tail8ded01.ts.net:8000`
+3. genera la build preview con `EXPO_PUBLIC_API_BASE_URL=https://mimsibot.tail8ded01.ts.net`
 4. instala la APK interna
 5. verifica `/health`, login y pantallas principales
 

@@ -44,10 +44,10 @@ uvicorn app.main:app --reload
 
 ```bash
 cd mobile
-npm install
-npm test
-npm run export:web
-npm run android
+corepack pnpm install
+corepack pnpm test
+corepack pnpm run export:web
+corepack pnpm run android
 ```
 
 ## Variables backend

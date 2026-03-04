@@ -17,7 +17,6 @@
     },
     "android": {
       "package": "com.mimsibot.mimsiui",
-      "usesCleartextTraffic": true,
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -36,10 +35,10 @@
       "expo-secure-store"
     ],
     "extra": {
-      "apiBaseUrl": "http://127.0.0.1:8000",
-      "oidcIssuer": "",
-      "oidcClientId": "",
-      "oidcAudience": "",
+      "apiBaseUrl": "https://mimsibot.tail8ded01.ts.net",
+      "oidcIssuer": "https://mimsibot.eu.auth0.com/",
+      "oidcClientId": "xjsB9bIJzul3LG3VjXd7DID9N2YmsAgC",
+      "oidcAudience": "https://mimsiui-api",
       "oidcScope": "mimsiui.read",
       "oidcWriteScope": "mimsiui.write",
       "eas": {
