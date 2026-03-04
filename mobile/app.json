@@ -17,6 +17,7 @@
     },
     "android": {
       "package": "com.mimsibot.mimsiui",
+      "usesCleartextTraffic": true,
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -40,10 +41,14 @@
       "oidcClientId": "",
       "oidcAudience": "",
       "oidcScope": "mimsiui.read",
-      "oidcWriteScope": "mimsiui.write"
+      "oidcWriteScope": "mimsiui.write",
+      "eas": {
+        "projectId": "b40755c7-69c9-4906-9fb6-a1ebdaaf34c4"
+      }
     },
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "owner": "mimsibot"
   }
 }

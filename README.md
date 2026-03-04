@@ -60,6 +60,8 @@ npm run android
 - `AUTH_CLIENT_ID`
 - `AUTH_REQUIRED_SCOPE`
 - `AUTH_ADMIN_SCOPE`
+- `AUTH_ADMIN_SUBJECTS_RAW`
+- `AUTH_ADMIN_EMAILS_RAW`
 - `AUTH_REQUIRE_EMAIL_VERIFIED`
 - `TRUSTED_HOSTS_RAW`
 - `FORCE_HTTPS`
@@ -76,6 +78,10 @@ npm run android
 
 ## Documentación
 
+- `docs/README.md`
+- `docs/UI_BOT_RUNTIME.md`
 - `docs/OAUTH2.md`
+- `docs/AUTH0_SETUP.md`
 - `docs/DEPLOYMENT.md`
 - `docs/PLAN.md`
+- `docs/LAUNCH_RUNBOOK.md`

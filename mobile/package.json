@@ -2,6 +2,7 @@
   "name": "mimsiui-mobile",
   "main": "expo-router/entry",
   "version": "1.0.0",
+  "packageManager": "pnpm@10.6.5",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -10,8 +11,8 @@
     "test": "jest --runInBand",
     "test:watch": "jest --watch",
     "export:web": "expo export --platform web",
-    "android:preview": "npx eas-cli build --platform android --profile preview",
-    "android:production": "npx eas-cli build --platform android --profile production"
+    "android:preview": "pnpm dlx eas-cli build --platform android --profile preview",
+    "android:production": "pnpm dlx eas-cli build --platform android --profile production"
   },
   "dependencies": {
     "@react-navigation/native": "^7.1.28",

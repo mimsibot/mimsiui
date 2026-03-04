@@ -42,10 +42,38 @@ Primera build Android interna:
 
 ```bash
 cd mobile
-npm run android:preview
+pnpm run android:preview
 ```
 
 Esa build es la correcta para probar login OIDC real, deep links y secure storage fuera de Expo Go.
+
+Preparación del host remoto de builds:
+
+```bash
+cd /home/eager-eagle/code/mimsiui
+bash scripts/setup-mobile-build-host.sh
+```
+
+Lanzar la build preview por SSH:
+
+```bash
+cd /home/eager-eagle/code/mimsiui
+EXPO_TOKEN=tu_token bash scripts/build-mobile-preview-ssh.sh
+```
+
+Consultar el estado de la última build por SSH:
+
+```bash
+cd /home/eager-eagle/code/mimsiui
+bash scripts/check-mobile-build-ssh.sh
+```
+
+O consultar una build concreta:
+
+```bash
+cd /home/eager-eagle/code/mimsiui
+bash scripts/check-mobile-build-ssh.sh 6d9b9bf7-09c3-4208-bbd2-052080efab02
+```
 
 Esto encaja bien con un bot que hace cambios frecuentes en UI sin obligar a reinstalar APK cada vez.
 
