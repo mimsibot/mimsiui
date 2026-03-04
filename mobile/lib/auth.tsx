@@ -27,6 +27,8 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
+const normalizeIssuer = (issuer: string) => issuer.replace(/\/+$/, '');
+
 export function AuthProvider({ children }: PropsWithChildren) {
   const [session, setSession] = useState<Session | null>(null);
   const [isHydrating, setIsHydrating] = useState(true);
@@ -37,8 +39,23 @@ export function AuthProvider({ children }: PropsWithChildren) {
     native: `${Constants.expoConfig?.scheme ?? 'mimsiui'}://auth/callback`,
     path: 'auth/callback',
   });
-  const discovery = AuthSession.useAutoDiscovery(appConfig.oidcIssuer || 'https://invalid.local');
-  const authReady = Boolean(appConfig.oidcIssuer && appConfig.oidcClientId && discovery);
+  const issuerBase = appConfig.oidcIssuer ? normalizeIssuer(appConfig.oidcIssuer) : '';
+  const staticDiscovery = issuerBase
+    ? {
+        authorizationEndpoint: `${issuerBase}/authorize`,
+        tokenEndpoint: `${issuerBase}/oauth/token`,
+        revocationEndpoint: `${issuerBase}/oauth/revoke`,
+        endSessionEndpoint: `${issuerBase}/oidc/logout`,
+      }
+    : null;
+  const discovered = AuthSession.useAutoDiscovery(appConfig.oidcIssuer || 'https://invalid.local');
+  const discovery = discovered ?? staticDiscovery;
+  const authReady = Boolean(
+    appConfig.oidcIssuer &&
+      appConfig.oidcClientId &&
+      discovery?.authorizationEndpoint &&
+      discovery?.tokenEndpoint,
+  );
   const [request, response, promptAsync] = AuthSession.useAuthRequest(
     {
       clientId: appConfig.oidcClientId || 'mimsiui-mobile',
